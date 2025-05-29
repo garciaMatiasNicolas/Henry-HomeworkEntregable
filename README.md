@@ -62,7 +62,7 @@ Asegúrate de que los valores coincidan con tu configuración local de MySQL.
 
 ### 5. Ejecutar la aplicación
 ```bash
-uvicorn src.app.main:app --reload # podemos pasarle un puerto especifico por parametros --port 8080 (por defecto corre en el 8000)
+uvicorn src.main:app --reload # podemos pasarle un puerto especifico por parametros --port 8080 (por defecto corre en el 8000)
 ```
 La API estará disponible en http://127.0.0.1:8000.
 

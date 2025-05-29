@@ -66,23 +66,32 @@ class ReportExecutor:
         now = datetime.now()
         five_minutes_ago = now - timedelta(minutes=5)
 
-        if self.start_date >= five_minutes_ago:
-            all_logs = list(self.cache.logs)
-        else:
+        db_logs = []
+        cache_logs = []
+
+        if self.start_date < five_minutes_ago:
+            # Obtener parte antigua desde la base de datos
+            db_query_start = self.start_date
+            db_query_end = min(self.end_date, five_minutes_ago)
+
             query = """
                 SELECT timestamp, sala, estado, humedad, co2, temperatura, mensaje
                 FROM templogs
                 WHERE timestamp BETWEEN %s AND %s;
             """
-            self.database.CURSOR.execute(query, (self.start_date, self.end_date))
+            self.database.CURSOR.execute(query, (db_query_start, db_query_end))
             rows = self.database.CURSOR.fetchall()
-            all_logs = [Logs.from_db_row(row) for row in rows]
+            db_logs = [Logs.from_db_row(row) for row in rows]
 
-        # Filtrar por rango
-        filtered_logs = [
-            log for log in all_logs
-            if self.start_date <= log.timestamp <= self.end_date
-        ]
+        if self.end_date >= five_minutes_ago:
+            # Obtener parte reciente desde el caché
+            cache_logs = [
+                log for log in self.cache.logs
+                if self.start_date <= log.timestamp <= self.end_date
+            ]
+
+        # Unir y deduplicar por timestamp y sala (si fuera necesario)
+        all_logs = db_logs + cache_logs
 
         # Convertir a DataFrame
         return pd.DataFrame([{
@@ -93,7 +102,8 @@ class ReportExecutor:
             "humedad": log.humedity,
             "temperatura": log.temperature,
             "co2": log.co2
-        } for log in filtered_logs])
+        } for log in all_logs])
+
     
     def execute(self) -> dict:
         data = self.get_log_data()
