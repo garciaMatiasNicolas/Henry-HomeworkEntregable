@@ -1,7 +1,7 @@
 from collections import deque, defaultdict
 from datetime import datetime, timedelta
 from typing import List, Dict, Optional
-from model.Logs import Logs
+from ..model.Logs import Logs
 
 
 class Cache:

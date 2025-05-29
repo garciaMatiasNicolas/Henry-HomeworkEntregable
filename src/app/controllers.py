@@ -1,8 +1,8 @@
-from services.Database import MYSQLDataBase
-from services.Cache import Cache
-from services.Dataloader import DataLoaderFactory
-from services.Reports import ReportStrategy
-from model.Logs import Logs
+from ..services.Database import MYSQLDataBase
+from ..services.Cache import Cache
+from ..services.Dataloader import DataLoaderFactory
+from ..services.Reports import ReportStrategy
+from ..model.Logs import Logs
 from datetime import datetime, timedelta
 import pandas as pd
 

@@ -1,6 +1,6 @@
 import mysql.connector as mysql
 from dotenv import load_dotenv
-from model.Logs import Logs
+from ..model.Logs import Logs
 from typing import List
 import os
 load_dotenv()
