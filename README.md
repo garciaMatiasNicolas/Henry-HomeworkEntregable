@@ -15,12 +15,17 @@ Henry-HomeworkEntregable/
 │   └── logs_ambientales_ecowatch.csv
 ├── src/
 │   ├── app/
-│   │   ├── api.py
-│   │   └── main.py
-│   └── services/
-│       ├── Cache.py
-│       ├── Database.py
-│       └── Reports.py
+│   │   ├── controllers.py
+│   │   └── router.py  
+│   ├── model/
+│   │   └──  Logs.py
+│   ├── services/
+│   │   ├── Cache.py
+│   │   ├── Dataloader.py
+│   │   ├── Database.py
+│   │   └── Reports.py
+│   ├── main.py
+│
 ├── requirements.txt
 └── README.md
 ```
